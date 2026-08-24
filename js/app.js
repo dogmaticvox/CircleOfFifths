@@ -1,4 +1,4 @@
-import { keyAt, dominantPosition, subdominantPosition, scaleDegrees } from './theory.js';
+import { keyAt, dominantPosition, subdominantPosition, modeScaleDegrees } from './theory.js';
 import { createWheel } from './wheel.js';
 import { noteFrequency, playScale, playTone } from './audio.js';
 
@@ -11,13 +11,15 @@ const els = {
   relative: $('kf-relative'),
   dominant: $('kf-dominant'),
   subdominant: $('kf-subdominant'),
+  modeSelect: $('mode-select'),
   scaleTable: $('scale-table'),
   playScaleBtn: $('play-scale-btn'),
 };
 
 const state = {
   position: 0, // C
-  mode: 'sharp',
+  enharmonic: 'sharp',
+  scaleMode: 'ionian',
 };
 
 const wheel = createWheel(els.wheelWrap, {
@@ -40,9 +42,9 @@ function renderInfo(k, dominantKey, subdominantKey) {
   els.subdominant.textContent = `${subdominantKey.name} major`;
 }
 
-function renderScale(k) {
+function renderScale(degrees) {
   els.scaleTable.innerHTML = '';
-  scaleDegrees(k).forEach(({ note, degree, name }) => {
+  degrees.forEach(({ note, degree, name }) => {
     const row = document.createElement('button');
     row.className = `scale-row deg-${degree}`;
     row.setAttribute('role', 'listitem');
@@ -58,23 +60,30 @@ function renderScale(k) {
 }
 
 function render() {
-  const k = keyAt(state.position, state.mode);
-  const dominantKey = keyAt(dominantPosition(state.position), state.mode);
-  const subdominantKey = keyAt(subdominantPosition(state.position), state.mode);
+  const k = keyAt(state.position, state.enharmonic);
+  const dominantKey = keyAt(dominantPosition(state.position), state.enharmonic);
+  const subdominantKey = keyAt(subdominantPosition(state.position), state.enharmonic);
+  const degrees = modeScaleDegrees(k.name, state.scaleMode);
 
-  wheel.render(state);
+  wheel.render({ position: state.position, mode: state.enharmonic });
   renderInfo(k, dominantKey, subdominantKey);
-  renderScale(k);
+  renderScale(degrees);
 }
 
 els.enharmonicToggle.addEventListener('change', () => {
-  state.mode = els.enharmonicToggle.checked ? 'flat' : 'sharp';
+  state.enharmonic = els.enharmonicToggle.checked ? 'flat' : 'sharp';
+  render();
+});
+
+els.modeSelect.addEventListener('change', () => {
+  state.scaleMode = els.modeSelect.value;
   render();
 });
 
 els.playScaleBtn.addEventListener('click', () => {
-  const k = keyAt(state.position, state.mode);
-  playScale(k.scale);
+  const k = keyAt(state.position, state.enharmonic);
+  const notes = modeScaleDegrees(k.name, state.scaleMode).map((d) => d.note);
+  playScale(notes);
 });
 
 render();

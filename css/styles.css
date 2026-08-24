@@ -392,6 +392,49 @@ main {
 .key-fact-value.accent-magenta { color: var(--magenta); text-shadow: 0 0 8px rgba(255, 45, 149, 0.5); }
 .key-fact-value.accent-violet { color: var(--violet); text-shadow: 0 0 8px rgba(123, 92, 255, 0.5); }
 
+/* ── Scale header / mode select ── */
+
+.scale-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mode-select {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 9px;
+  padding: 7px 28px 7px 12px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.mode-select:hover,
+.mode-select:focus-visible {
+  box-shadow: var(--glow-cyan);
+  border-color: var(--cyan);
+}
+
+.mode-select option {
+  background: var(--bg-2);
+  color: var(--ink);
+}
+
 /* ── Scale table ── */
 
 .scale-table {

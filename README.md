@@ -20,10 +20,15 @@ tone playback for ear training.
   flat spelling; the wheel and every panel re-render to match
 - 📋 **Key info** — sharps/flats and which notes they are, relative minor,
   dominant and subdominant, all at a glance
-- 🎼 **Scale breakdown** — the 7 notes of the major scale with scale-degree
-  names (Tonic … Leading Tone); tonic, mediant and dominant are color-coded
+- 🎼 **Scale breakdown** — the 7 notes of the selected key with scale-degree
+  names (Tonic … Leading Tone/Subtonic); tonic, mediant and dominant are
+  color-coded
+- 🌀 **Modes** — a dropdown next to the scale switches between the seven
+  diatonic modes (Major/Ionian, Dorian, Phrygian, Lydian, Mixolydian,
+  Minor/Aeolian, Locrian), all built on the selected tonic itself
 - 🔊 **Tone playback** — tap a note to hear it, or hit **PLAY SCALE** to hear
-  all 7 notes in sequence — pure `OscillatorNode` synthesis, no audio files
+  the current mode's 7 notes in sequence — pure `OscillatorNode` synthesis,
+  no audio files
 - 📴 **Offline-first** — installs to your home screen and works with no
   connection
 
@@ -52,7 +57,13 @@ python3 -m http.server 8080
   sharp/flat enharmonic pairs (B/Cb, F#/Gb, C#/Db) modeled explicitly.
   Dominant and subdominant are just "one position clockwise/counter-clockwise"
   on the same table — the wheel geometry and the music theory share one
-  source of truth.
+  source of truth. Modes are spelled generally rather than hardcoded: each
+  mode is a semitone interval pattern from the tonic, and `diatonicScale()`
+  walks the seven letter names outward from the tonic, picking whichever
+  accidental (natural through double sharp/flat) lands each letter on the
+  pattern's target pitch — the same routine that gets "D Dorian" as
+  `D E F G A B C` also handles the rare double-sharp spellings that a mode
+  like Lydian forces on an already sharp-heavy tonic (C# Lydian's 4th is F##).
 - `js/wheel.js` draws the SVG wheel (two concentric donut-slice rings, one
   wedge per fifth) and reports clicks/keyboard selection back to the app.
 - `js/audio.js` is a small Web Audio helper: note names to frequencies

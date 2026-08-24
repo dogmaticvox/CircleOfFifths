@@ -77,7 +77,18 @@
     </section>
 
     <section class="card scale-card">
-      <h2 class="card-title">MAJOR SCALE</h2>
+      <div class="scale-header">
+        <label for="mode-select" class="card-title">SCALE</label>
+        <select id="mode-select" class="mode-select" aria-label="Scale / mode">
+          <option value="ionian">MAJOR SCALE</option>
+          <option value="dorian">DORIAN</option>
+          <option value="phrygian">PHRYGIAN</option>
+          <option value="lydian">LYDIAN</option>
+          <option value="mixolydian">MIXOLYDIAN</option>
+          <option value="aeolian">MINOR</option>
+          <option value="locrian">LOCRIAN</option>
+        </select>
+      </div>
       <div class="scale-table" id="scale-table" role="list" aria-label="Scale degrees — tap a note to hear it"></div>
       <button id="play-scale-btn" class="btn btn-outline">
         <span class="btn-play-icon" aria-hidden="true"></span>PLAY SCALE

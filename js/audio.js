@@ -12,11 +12,10 @@ function getContext() {
 }
 
 function pitchClass(note) {
-  const letter = note[0];
-  const accidental = note[1];
-  let semitone = PITCH_CLASS[letter];
-  if (accidental === '#') semitone += 1;
-  else if (accidental === 'b') semitone -= 1;
+  let semitone = PITCH_CLASS[note[0]];
+  for (let i = 1; i < note.length; i++) {
+    semitone += note[i] === '#' ? 1 : note[i] === 'b' ? -1 : 0;
+  }
   return ((semitone % 12) + 12) % 12;
 }
 
