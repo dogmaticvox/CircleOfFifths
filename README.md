@@ -26,6 +26,14 @@ tone playback for ear training.
 - 🌀 **Modes** — a dropdown next to the scale switches between the seven
   diatonic modes (Major/Ionian, Dorian, Phrygian, Lydian, Mixolydian,
   Minor/Aeolian, Locrian), all built on the selected tonic itself
+- 🎹 **Piano octave** — one octave from C to B with every key labeled;
+  keys outside the current scale are greyed out, and the tonic, 3rd and 5th
+  are color-coded like the scale table
+- 🎸 **Guitar fretboard** — standard tuning, open strings through the 12th
+  fret, with a dot (and note name) on every fret/string that's in the scale
+- 🖐 **Full scale / pentatonic** — a dropdown on the piano and fretboard
+  switches both between the full 7-note scale and its pentatonic subset
+  (major pentatonic for major-3rd modes, minor pentatonic for the rest)
 - 🔊 **Tone playback** — tap a note to hear it, or hit **PLAY SCALE** to hear
   the current mode's 7 notes in sequence — pure `OscillatorNode` synthesis,
   no audio files
@@ -66,6 +74,8 @@ python3 -m http.server 8080
   like Lydian forces on an already sharp-heavy tonic (C# Lydian's 4th is F##).
 - `js/wheel.js` draws the SVG wheel (two concentric donut-slice rings, one
   wedge per fifth) and reports clicks/keyboard selection back to the app.
+- `js/instruments.js` draws the piano octave and fretboard as SVG from the
+  current list of scale degrees; tap any piano key or fretboard dot to hear it.
 - `js/audio.js` is a small Web Audio helper: note names to frequencies
   (equal temperament, A4 = 440 Hz) and short sine-tone playback with a
   clipped envelope so notes don't click.

@@ -1,4 +1,4 @@
-const CACHE = 'c05-v1';
+const CACHE = 'c05-v2';
 
 const ASSETS = [
   './',
@@ -8,6 +8,7 @@ const ASSETS = [
   './js/theory.js',
   './js/wheel.js',
   './js/audio.js',
+  './js/instruments.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',

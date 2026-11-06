@@ -97,7 +97,7 @@ const LETTERS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 const NATURAL_PITCH = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 const ACCIDENTAL_STR = { '-2': 'bb', '-1': 'b', 0: '', 1: '#', 2: '##' };
 
-function notePitchClass(note) {
+export function notePitchClass(note) {
   let semitone = NATURAL_PITCH[note[0]];
   for (let i = 1; i < note.length; i++) {
     semitone += note[i] === '#' ? 1 : note[i] === 'b' ? -1 : 0;
@@ -132,4 +132,22 @@ export function modeScaleDegrees(tonicName, modeId) {
   const seventhName = mode.id === 'ionian' || mode.id === 'lydian' ? 'Leading Tone' : 'Subtonic';
   const names = [...DEGREE_NAMES.slice(0, 6), seventhName];
   return notes.map((note, i) => ({ note, degree: i + 1, name: names[i] }));
+}
+
+// ── Pentatonic ───────────────────────────────────────────────────────────
+// Five-note subsets of the current mode. Modes with a major 3rd (Ionian,
+// Lydian, Mixolydian) drop the 4th and 7th → degrees 1 2 3 5 6, i.e. the
+// major pentatonic. Modes with a minor 3rd drop the 2nd and 6th → degrees
+// 1 b3 4 5 b7, i.e. the minor pentatonic (Locrian keeps its flat 5th).
+const MAJOR_TYPE_MODES = new Set(['ionian', 'lydian', 'mixolydian']);
+
+export function pentatonicDegrees(degrees, modeId) {
+  const keep = MAJOR_TYPE_MODES.has(modeId) ? [1, 2, 3, 5, 6] : [1, 3, 4, 5, 7];
+  return degrees.filter((d) => keep.includes(d.degree));
+}
+
+export function pentatonicLabel(modeId) {
+  if (MAJOR_TYPE_MODES.has(modeId)) return 'major pentatonic';
+  if (modeId === 'locrian') return 'minor pentatonic (b5)';
+  return 'minor pentatonic';
 }

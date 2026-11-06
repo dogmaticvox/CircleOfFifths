@@ -1,4 +1,8 @@
-import { keyAt, dominantPosition, subdominantPosition, modeScaleDegrees } from './theory.js';
+import {
+  keyAt, dominantPosition, subdominantPosition, modeScaleDegrees,
+  MODES, pentatonicDegrees, pentatonicLabel,
+} from './theory.js';
+import { renderPiano, renderFretboard } from './instruments.js';
 import { createWheel } from './wheel.js';
 import { noteFrequency, playScale, playTone } from './audio.js';
 
@@ -14,12 +18,18 @@ const els = {
   modeSelect: $('mode-select'),
   scaleTable: $('scale-table'),
   playScaleBtn: $('play-scale-btn'),
+  pianoWrap: $('piano-wrap'),
+  pianoCaption: $('piano-caption'),
+  fretWrap: $('fretboard-wrap'),
+  fretCaption: $('fret-caption'),
+  viewSelects: [$('piano-view-select'), $('fret-view-select')],
 };
 
 const state = {
   position: 0, // C
   enharmonic: 'sharp',
   scaleMode: 'ionian',
+  instrumentView: 'full', // 'full' | 'pentatonic' — shared by piano + fretboard
 };
 
 const wheel = createWheel(els.wheelWrap, {
@@ -68,6 +78,21 @@ function render() {
   wheel.render({ position: state.position, mode: state.enharmonic });
   renderInfo(k, dominantKey, subdominantKey);
   renderScale(degrees);
+  renderInstruments(k, degrees);
+}
+
+function renderInstruments(k, degrees) {
+  const pentatonic = state.instrumentView === 'pentatonic';
+  const shown = pentatonic ? pentatonicDegrees(degrees, state.scaleMode) : degrees;
+  const modeLabel = (MODES.find((m) => m.id === state.scaleMode) ?? MODES[0]).label;
+  const caption = `${k.name} ${pentatonic ? pentatonicLabel(state.scaleMode) : modeLabel.toLowerCase()}`
+    + ` — ${shown.map((d) => d.note).join(' ')}`;
+
+  els.pianoCaption.textContent = caption;
+  els.fretCaption.textContent = caption;
+  els.viewSelects.forEach((sel) => { sel.value = state.instrumentView; });
+  renderPiano(els.pianoWrap, shown, state.enharmonic);
+  renderFretboard(els.fretWrap, shown);
 }
 
 els.enharmonicToggle.addEventListener('change', () => {
@@ -79,6 +104,11 @@ els.modeSelect.addEventListener('change', () => {
   state.scaleMode = els.modeSelect.value;
   render();
 });
+
+els.viewSelects.forEach((sel) => sel.addEventListener('change', () => {
+  state.instrumentView = sel.value;
+  render();
+}));
 
 els.playScaleBtn.addEventListener('click', () => {
   const k = keyAt(state.position, state.enharmonic);
