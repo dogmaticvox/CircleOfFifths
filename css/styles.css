@@ -489,6 +489,66 @@ main {
 .scale-row.deg-5 .scale-note { color: var(--magenta); text-shadow: 0 0 8px rgba(255, 45, 149, 0.6); }
 .scale-row.deg-5 .scale-degree-num { color: var(--magenta); }
 
+/* ── Piano + fretboard ── */
+
+.instrument-caption {
+  margin: -6px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+
+.piano-wrap { width: 100%; max-width: 380px; margin: 0 auto; }
+.piano, .fretboard { width: 100%; height: auto; display: block; }
+
+.piano-key { cursor: pointer; outline: none; }
+.piano-key rect { stroke: rgba(0, 0, 0, 0.6); stroke-width: 1; transition: fill 0.15s, filter 0.15s; }
+.piano-label { font-family: var(--font); font-size: 12px; font-weight: 700; pointer-events: none; }
+.piano-key.black .piano-label { font-size: 9px; }
+.piano-dot { pointer-events: none; fill: var(--ink-dim); }
+
+.piano-key.white.in-scale rect { fill: #e8f4ff; }
+.piano-key.white.in-scale .piano-label { fill: #0a0e17; }
+.piano-key.black.in-scale rect { fill: #05070c; stroke: rgba(0, 240, 255, 0.55); }
+.piano-key.black.in-scale .piano-label { fill: var(--ink); }
+
+.piano-key.white.out-scale rect { fill: #3b4357; }
+.piano-key.black.out-scale rect { fill: #252b3a; stroke: rgba(0, 0, 0, 0.7); }
+.piano-key.out-scale .piano-label { fill: rgba(232, 244, 255, 0.35); }
+
+.piano-key:hover rect, .piano-key:focus-visible rect { filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.7)); }
+.piano-key:active rect { filter: brightness(0.85); }
+
+.piano-key.deg-1 .piano-dot { fill: var(--cyan); filter: drop-shadow(0 0 3px rgba(0, 240, 255, 0.9)); }
+.piano-key.deg-3 .piano-dot { fill: var(--violet); }
+.piano-key.deg-5 .piano-dot { fill: var(--magenta); }
+.piano-key.white.deg-1 rect { fill: #c9fbff; }
+.piano-key.black.deg-1 rect { stroke: var(--cyan); stroke-width: 2; }
+
+.fretboard-wrap { width: 100%; }
+
+.fret-string { stroke: rgba(232, 244, 255, 0.45); }
+.fret-wire { stroke: rgba(125, 138, 165, 0.45); stroke-width: 1.5; }
+.fret-nut { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.fret-inlay { fill: rgba(125, 138, 165, 0.22); }
+.fret-num, .string-name { font-family: var(--font); font-size: 10px; fill: var(--ink-dim); }
+
+.fret-dot { cursor: pointer; outline: none; }
+.fret-dot circle {
+  fill: #1b2236;
+  stroke: rgba(232, 244, 255, 0.55);
+  stroke-width: 1.2;
+  transition: filter 0.15s;
+}
+.fret-dot text { font-family: var(--font); font-size: 8px; font-weight: 700; fill: var(--ink); pointer-events: none; }
+.fret-dot.open circle { fill: var(--bg); }
+.fret-dot:hover circle, .fret-dot:focus-visible circle { filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.9)); }
+
+.fret-dot.deg-1 circle { fill: var(--cyan); stroke: var(--cyan); filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.7)); }
+.fret-dot.deg-1 text { fill: #04070d; }
+.fret-dot.deg-3 circle { fill: rgba(123, 92, 255, 0.85); stroke: var(--violet); }
+.fret-dot.deg-5 circle { fill: rgba(255, 45, 149, 0.85); stroke: var(--magenta); }
+
 /* ── Footer ── */
 
 .app-footer {
